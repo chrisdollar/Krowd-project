@@ -1,4 +1,4 @@
-<!-- Bootstrap core CSS -->
+    <!-- Bootstrap core CSS -->
     <link href="{{ asset('bootstrap/css/bootstrap.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- Custom styles for this template -->

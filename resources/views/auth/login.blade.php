@@ -70,10 +70,36 @@
      </div><!-- row -->
            
            <button type="submit" id="buttonSubmit" class="btn btn-block btn-lg btn-main custom-rounded">{{ trans('auth.sign_in') }}</button>
-          </form>
+           <hr>
+           <!-- Social Button -->
+           <div class="form-group">
+                <div class="offset-md-4">
+                     <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-default custom-rounded"> Github</a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="offset-md-4">
+                     <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-facebook custom-rounded"> Facebook</a>
+                </div>
+            </div>
+          <!--
+          <div class="form-group">
+              <div class="offset-md-4">
+                   <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-google-plus custom-rounded"> Google</a>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <div class="offset-md-4">
+                   <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-twitter custom-rounded"> Twitter</a>
+              </div>
+          </div>  -->
+      </form>
                       	
      </div><!-- Login Form -->
-		
+
+     		
  </div><!-- /COL MD -->
   
 </div><!-- ROW -->

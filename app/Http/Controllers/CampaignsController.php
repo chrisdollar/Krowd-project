@@ -175,6 +175,18 @@ class CampaignsController extends Controller
 		return view('campaigns.view')->withResponse($response);
 		
 	}// End Method
+
+	public function searchCampaigns(Request $request)
+    {
+    	if($request->has('search')){
+    		$campaigns = Campaigns::search($request->get('search'))->get();	
+    	}else{
+    		$campaigns = Campaigns::get();
+    	}
+
+
+    	return view('search_campaigns', compact('campaigns'));
+    }// End Method
 	
 	public function contactOrganizer() {
 		

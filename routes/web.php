@@ -64,6 +64,25 @@ Route::get('campaign/{id}/{slug?}','CampaignsController@view');
 /* 
  |
  |-----------------------------------
+ | Search Campaign
+ |--------- -------------------------
+ */
+
+Route::get("search_campaigns","CampaignsController@searchCampaigns");
+
+/* 
+ |
+ |-----------------------------------
+ | Social Authentification
+ |--------- -------------------------
+ */
+
+Route::get('login/{provider}', 'SocialController@redirect');
+Route::get('login/{provider}/callback','SocialController@Callback');
+
+/* 
+ |
+ |-----------------------------------
  | User Views LOGGED
  |--------- -------------------------
  */

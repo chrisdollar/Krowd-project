@@ -3,11 +3,27 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Campaigns extends Model {
 
+	use SearchableTrait;
+
 	protected $guarded = array();
 	public $timestamps = false;
+
+	/**
+     * Searchable rules.
+     *
+     * @var array
+     */
+    protected $searchable = [
+        'columns' => [
+        	'campaigns.id' => 3,
+            'campaigns.title' => 10,
+            'campaigns.goal' => 10,
+        ]
+    ];
 	
 	public function user() {
         return $this->belongsTo('App\Models\User')->first();
