@@ -1,6 +1,6 @@
 @if( $data->count() != 0 )
-	@foreach ( $data as $key )
-	    @include('includes.list-campaigns')
+	@foreach ($campaigns as $campaign )
+	    @include('includes.list-campaigns-categories')
 	@endforeach
 	@if( $data->hasMorePages() )
 		<div class="col-md-12 loadMoreSpin">

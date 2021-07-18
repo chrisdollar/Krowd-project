@@ -9,7 +9,7 @@ return array(
 	|
 	*/
 
-	'admin'                     =>      'Crowd Admin',
+	'admin'                     =>      'Krowd Admin',
 	'role_admin'                =>      'Admin',
 	'dashboard'                 =>      'Dashboard',
 	'home'                      =>      'Home',
@@ -61,6 +61,7 @@ return array(
 	'disabled'                  =>      'Disabled',
 	'suspended'                 =>      'Suspended',
 	'normal'                    =>      'Normal',
+	'premium'                   =>      'Premium',
 	'moderator'                 =>      'Moderator',
 	'members_reported'          =>      'Members Reported',
 	'report_by'                 =>      'Report by',
@@ -145,6 +146,7 @@ return array(
 	'min_donation_amount' => 'The minimum amount for Donations',
 	'password_no_change' => 'Leave empty for no change',
 	'normal_user' => '(It can only publish campaigns)',
+	'premium_user' => '(It can only publish private campaigns)',
 	'currency_code' => 'Currency Code',
 	'show_navbar' => 'Show Navbar',
 

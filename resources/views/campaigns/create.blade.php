@@ -22,7 +22,7 @@
 			@include('errors.errors-forms')
 			
     <!-- form start -->
-    <form method="POST" action="{{ url('create/campaign') }}" enctype="multipart/form-data" id="formUpload">
+    <form method="POST" action="{{ url('store/campaign') }}" enctype="multipart/form-data" id="formUpload">
     	
     	<input type="hidden" name="_token" value="{{ csrf_token() }}">
 		<div class="filer-input-dragDrop position-relative" id="draggable">
@@ -48,19 +48,29 @@
 				</div>
 			</div>
 			
-                 <!-- Start Form Group -->
-                    <div class="form-group">
-                      <label>{{ trans('misc.campaign_title') }}</label>
-                        <input type="text" value="{{ old('title') }}" name="title" id="title" class="form-control" placeholder="{{ trans('misc.campaign_title') }}">
-                    </div><!-- /.form-group-->
-                  
-                  <div class="form-group">
+	                 <!-- Start Form Group -->
+	                <div class="form-group">
+	                  <label>{{ trans('misc.campaign_title') }}</label>
+	                    <input type="text" value="{{ old('title') }}" name="title" id="title" class="form-control" placeholder="{{ trans('misc.campaign_title') }}">
+	                </div><!-- /.form-group-->
+
+	                <div class="form-group">
+	                  <label>Category</label>
+	                  	<select name="category"  class="form-control">
+	                  		@foreach($categories as $category)
+	                  			<option value="{{$category->id}}"> {{$category->name}}</option>
+	                  		@endforeach
+	                  	</select>
+	                  	
+	                </div><!-- /.form-group-->
+	                  
+	              <div class="form-group">
 				    <label>{{ trans('misc.campaign_goal') }}</label>
 				    <div class="input-group">
 				      <div class="input-group-addon addon-dollar">{{$settings->currency_symbol}}</div>
 				      <input type="number" min="{{$settings->min_campaign_amount}}" class="form-control" name="goal" id="onlyNumber" value="{{ old('goal') }}" placeholder="10000">
 				    </div>
-				  </div>
+			  	 </div>
                   
                   <!-- Start Form Group -->
                     <div class="form-group">

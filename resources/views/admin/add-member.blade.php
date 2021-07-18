@@ -67,8 +67,9 @@
                       <label class="col-sm-2 control-label">{{ trans('admin.role') }}</label>
                       <div class="col-sm-10">
                         <select name="role" class="form-control" >
-                      		<option value="normal">{{trans('admin.normal')}} {{trans('admin.normal_user')}}</option>
-                      		<option value="admin">{{trans('misc.admin')}}</option>
+                        		<option value="normal">{{trans('admin.normal')}} {{trans('admin.normal_user')}}</option>
+                            <option value="premium">{{trans('admin.premium')}} {{trans('admin.premium_user')}}</option>
+                            <option value="admin">{{trans('misc.admin')}}</option>
                           </select>
                       </div>
                     </div>

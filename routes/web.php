@@ -43,6 +43,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('ajax/donations', 'AjaxController@donations');
 Route::get('ajax/campaign/updates', 'AjaxController@updatesCampaign');
 Route::get('ajax/campaigns', 'AjaxController@campaigns');
+Route::get('ajax/campaigns/categories/{slug?}', 'AjaxController@campaignCategory');
 
 /* 
  |
@@ -61,6 +62,7 @@ Route::post('contact/organizer','CampaignsController@contactOrganizer');
  */
 Route::get('campaign/{id}/{slug?}','CampaignsController@view');
 
+
 /* 
  |
  |-----------------------------------
@@ -68,7 +70,7 @@ Route::get('campaign/{id}/{slug?}','CampaignsController@view');
  |--------- -------------------------
  */
 
-Route::get("search_campaigns","CampaignsController@searchCampaigns");
+Route::get("campaign/search","CampaignsController@searchCampaigns");
 
 /* 
  |

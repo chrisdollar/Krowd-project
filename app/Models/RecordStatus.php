@@ -4,26 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
-class Categories
+/**
+ * Class RecordStatus
+ * @package App
+ */
+class RecordStatus extends Model
 {
-    protected $guarded = array();
-    public $timestamps = false;
-    
-	
+    const ACTIVE_ID = 1;
+    const NOT_ACTIVE_ID = 2;
 
+    const ACTIVE_SLUG = 'active';
+    const NOT_ACTIVE_SLUG = 'not-active';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'record_statuses';
+    
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'slug', 'mode',
+        'slug', 'label', 'description',
     ];
-
-    // public function campaigns() {
-    //     return $this->hasMany('App\Models\Campaigns');
-    // }
 
     /**
      * @param $query
@@ -34,10 +41,4 @@ class Categories
     {
         return $query->where('slug', $slug);
     }
-    
-    public function scopeGetCategories()
-    {
-        return $query->select('*');
-    }
-	
 }

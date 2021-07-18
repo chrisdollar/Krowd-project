@@ -24,16 +24,34 @@ class AjaxController extends Controller
       public function campaigns()
     {
        
-	   $settings = AdminSettings::first();
-       $data      = Campaigns::orderBy('id','DESC')->paginate($settings->result_request);
-		
+	   $settings 	= AdminSettings::first();
+       $data     	= Campaigns::orderBy('id','DESC')->paginate($settings->result_request);
+
 		return view('ajax.campaigns',['data' => $data, 'settings' => $settings])->render();
     }
-	
+
+    public function campaignCategory($slug){
+    	$campaignCategory = null;
+
+    	 if(!empty($slug)){
+            $campaignCategory = Categories::BySlug($slug)->first();
+
+            !empty($userId)
+                ? $campaigns = Campaigns::ByCampaignCategoryId($campaignCategory->id)->ByUserId($userId)->get()
+                : $campaigns = Campaigns::ByCampaignCategoryId($campaignCategory->id)->get();
+        } else if(!empty($userId)) {
+            $campaigns = Campaigns::ByUserId($userId)->get();
+        } else {
+            $campaigns = Campaigns::all();
+        }
+
+        return view('ajax.campaigns-categories', ['campaigns' => $campaigns]);
+    }//<--- End Method
+
     public function donations()
     {
        
-	   $settings = AdminSettings::first();
+	   	$settings = AdminSettings::first();
 		$page    = $this->request->input('page');
 		$id      = $this->request->input('id');
 		$data    = Donations::where('campaigns_id',$id)->orderBy('id','desc')->paginate(2);
@@ -47,7 +65,7 @@ class AjaxController extends Controller
        
 	    $settings = AdminSettings::first();
 		$page     = $this->request->input('page');
-		$id         = $this->request->input('id');
+		$id       = $this->request->input('id');
 		$data     = Updates::where('campaigns_id',$id)->orderBy('id','desc')->paginate(1);
 
  		return view('ajax.updates-campaign',['data' => $data, 'settings' => $settings])->render();

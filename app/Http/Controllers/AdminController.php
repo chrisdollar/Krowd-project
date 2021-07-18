@@ -19,7 +19,7 @@ class AdminController extends Controller {
 		$this->settings = $settings::first();
 	}
 	
-		 public function index(Request $request) {
+	public function index(Request $request) {
 	 	
 		$query = $request->input('q');
 		
@@ -32,7 +32,8 @@ class AdminController extends Controller {
 		 }
 		
     	return view('admin.members', ['data' => $data,'query' => $query]);
-	 }
+
+	 }//<--- End Method
 
 	public function edit($id) {
 		
@@ -48,39 +49,39 @@ class AdminController extends Controller {
 	
 	public function update($id, Request $request) {
     	
-    $user = User::findOrFail($id);
+	    $user = User::findOrFail($id);
+			
+		$input = $request->all();
 		
-	$input = $request->all();
-	
-	if( !empty( $request->password ) )	 {
-		$rules = array(
-			'name' => 'required|min:3|max:25',
-			'email'     => 'required|email|unique:users,email,'.$id,
-			 'password' => 'min:6',
-			);
+		if( !empty( $request->password ) )	 {
+			$rules = array(
+				'name' => 'required|min:3|max:25',
+				'email'     => 'required|email|unique:users,email,'.$id,
+				 'password' => 'min:6',
+				);
+				
+				$password = \Hash::make($request->password);
+				
+		} else {
+			$rules = array(
+				'name' => 'required|min:3|max:25',
+				'email'     => 'required|email|unique:users,email,'.$id,
+				);
+				
+				$password = $user->password;
+		}
 			
-			$password = \Hash::make($request->password);
-			
-	} else {
-		$rules = array(
-			'name' => 'required|min:3|max:25',
-			'email'     => 'required|email|unique:users,email,'.$id,
-			);
-			
-			$password = $user->password;
-	}
-		
-	   $this->validate($request,$rules);
-	  
-	  $user->name = $request->name;
-	  $user->email = $request->email;
-	  $user->role = $request->role;
-	  $user->password = $password;
-      $user->save();
+		   $this->validate($request,$rules);
+		  
+		  $user->name = $request->name;
+		  $user->email = $request->email;
+		  $user->role = $request->role;
+		  $user->password = $password;
+	      $user->save();
 
-    \Session::flash('success_message', trans('admin.success_update'));
+	    \Session::flash('success_message', trans('admin.success_update'));
 
-    return redirect('panel/admin/members');
+	    return redirect('panel/admin/members');
 	
 	}//<--- End Method
 	
@@ -208,7 +209,7 @@ class AdminController extends Controller {
 
     	return redirect('panel/admin/settings/limits');
 						
-	}//<--- END METHOD
+	}//<--- End Method
 	
 	public function profiles_social(){
 		return view('admin.profiles-social')->withSettings($this->settings);
@@ -367,7 +368,7 @@ class AdminController extends Controller {
 		
 		$path_small     = 'public/campaigns/small/'; 
 		$path_large     = 'public/campaigns/large/';
-		$path_updates = 'public/campaigns/updates/';
+		$path_updates 	= 'public/campaigns/updates/';
 		
 		$updates = $data->updates()->get();
 		

@@ -69,30 +69,30 @@
      	</div>
      </div><!-- row -->
            
-           <button type="submit" id="buttonSubmit" class="btn btn-block btn-lg btn-main custom-rounded">{{ trans('auth.sign_in') }}</button>
+           <button type="submit" id="buttonSubmit" class="btn btn-block btn-lg btn-main custom-rounded"><i class="fa fa-sign-in myicon-right"></i> {{ trans('auth.sign_in') }}</button>
            <hr>
            <!-- Social Button -->
            <div class="form-group">
                 <div class="offset-md-4">
-                     <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-default custom-rounded"> Github</a>
+                     <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-default custom-rounded"> <i class="fa fa-github myicon-right"></i> Github</a>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="offset-md-4">
-                     <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-facebook custom-rounded"> Facebook</a>
+                     <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-facebook custom-rounded"> <i class="fa fa-facebook myicon-right"></i> Facebook</a>
                 </div>
             </div>
           <!--
           <div class="form-group">
               <div class="offset-md-4">
-                   <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-google-plus custom-rounded"> Google</a>
+                   <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-google-plus custom-rounded"> <i class="fa fa-google-plus myicon-right"></i> Google</a>
               </div>
           </div>
 
           <div class="form-group">
               <div class="offset-md-4">
-                   <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-twitter custom-rounded"> Twitter</a>
+                   <a href="{{ url('/login/facebook') }}" class="btn btn-block btn-lg btn-twitter custom-rounded"> <i class="fa fa-twitter myicon-right"></i> Twitter</a>
               </div>
           </div>  -->
       </form>

@@ -31,30 +31,32 @@ class CampaignsController extends Controller
 		$dimensions = explode('x',$this->settings->min_width_height_image);
 		
 		$messages = array (
-		'photo.required'       => trans('misc.please_select_image'),
-		'description.required' => trans('misc.description_required'),
-		'goal.min' => trans('misc.amount_minimum', ['symbol' => $this->settings->currency_symbol, 'code' => $this->settings->currency_code]),
-        "photo.max"   => trans('misc.max_size').' '.Helper::formatBytes( $sizeAllowed, 1 ),
-	);
+			'photo.required'       => trans('misc.please_select_image'),
+			'description.required' => trans('misc.description_required'),
+			'goal.min' => trans('misc.amount_minimum', ['symbol' => $this->settings->currency_symbol, 'code' => $this->settings->currency_code]),
+	        "photo.max"   => trans('misc.max_size').' '.Helper::formatBytes( $sizeAllowed, 1 ),
+			);
 		
 		// Create Rules
 		if( $id == null ) {
 			return Validator::make($data, [
-			'photo'           => 'required|mimes:jpg,gif,png,jpe,jpeg|image_size:>='.$dimensions[0].',>='.$dimensions[1].'|max:'.$this->settings->file_size_allowed.'',
+			'photo'           	=> 'required|mimes:jpg,gif,png,jpe,jpeg|image_size:>='.$dimensions[0].',>='.$dimensions[1].'|max:'.$this->settings->file_size_allowed.'',
         	'title'             => 'required|min:3|max:45',
-        	'goal'             => 'required|numeric|min:50',
-        	 'location'        => 'required|max:50',
-            'description'  => 'required|min:20',	        
+        	'categories_id' 	=> 'required|exists:categories,id',
+        	'goal'              => 'required|numeric|min:50',
+        	'location'        	=> 'required|max:50',
+            'description'  		=> 'required|min:20',	        
         ], $messages);
 		
 		// Update Rules
 		} else {
 			return Validator::make($data, [
-				'photo'           => 'mimes:jpg,gif,png,jpe,jpeg|image_size:>='.$dimensions[0].',>='.$dimensions[1].'|max:'.$this->settings->file_size_allowed.'',
+				'photo'           	=> 'mimes:jpg,gif,png,jpe,jpeg|image_size:>='.$dimensions[0].',>='.$dimensions[1].'|max:'.$this->settings->file_size_allowed.'',
 		    	'title'             => 'required|min:3|max:45',
-		    	'goal'             => 'required|numeric|min:50',
-		    	 'location'        => 'required|max:50',
-		        'description'  => 'required|min:20',
+		    	'categories_id' 	=> 'required|exists:categories,id',
+		    	'goal'             	=> 'required|numeric|min:50',
+		    	'location'        	=> 'required|max:50',
+		        'description'  		=> 'required|min:20',
 		        ]);
 		}
 		
@@ -71,12 +73,12 @@ class CampaignsController extends Controller
 		$validator = $this->validator($input);
 		
 		 if ($validator->fails()) {
-	        return response()->json([
-			        'success' => false,
-			        'errors' => $validator->getMessageBag()->toArray(),
-			    ]); 
-	    } //<-- Validator
-	    
+		        return response()->json([
+				        'success' => false,
+				        'errors' => $validator->getMessageBag()->toArray(),
+				    ]); 
+		 } //<-- Validator
+		    
 	    if( $this->request->hasFile('photo') )	{
 	    	
 			$extension    = $this->request->file('photo')->getClientOriginalExtension();
@@ -126,22 +128,23 @@ class CampaignsController extends Controller
 			$image_large  = $file_large; 
 			
 	    }//<====== End HasFile
-	    
-	    
-	    $sql                        = new Campaigns;
-		$sql->title                = trim($this->request->title);
+	 
+	    $sql                = new Campaigns;
+		$sql->title         = trim($this->request->title);
 		$sql->small_image   = $image_small;
 		$sql->large_image   = $image_large;
-		$sql->description     = trim(Helper::checkTextDb($this->request->description));
-		$sql->user_id          = Auth::user()->id;
-		$sql->date               = Carbon::now();
-		$sql->token_id         = str_random(200);
-		$sql->goal               = trim($this->request->goal);
-		$sql->location          = trim($this->request->location);
+		$sql->description   = trim(Helper::checkTextDb($this->request->description));
+		$sql->user_id       = Auth::user()->id;
+		$sql->category      = $this->request->category;
+		$sql->date          = Carbon::now();
+		$sql->token_id      = str_random(200);
+		$sql->goal          = trim($this->request->goal);
+		$sql->location      = trim($this->request->location);
 		$sql->save();
 		
 		$id_campaign = $sql->id;
-	    
+
+		
 	    return response()->json([
 				        'success' => true,
 				        'target' => url('campaign',$id_campaign),
@@ -184,8 +187,7 @@ class CampaignsController extends Controller
     		$campaigns = Campaigns::get();
     	}
 
-
-    	return view('search_campaigns', compact('campaigns'));
+    	return view('campaigns.search', compact('campaigns'));
     }// End Method
 	
 	public function contactOrganizer() {
@@ -214,13 +216,13 @@ class CampaignsController extends Controller
 				    ]);
 		    }
 		   
-		   $sender = $settings->email_no_reply;
-		   $replyTo = $this->request->email;
-		   $user    = $this->request->name;
-		   $titleSite = $settings->title;
-		   $data = $this->request->message;
-		   $_emailUser = $emailUser->email;
-		   $_nameUser = $emailUser->name;
+		   $sender 		= $settings->email_no_reply;
+		   $replyTo 	= $this->request->email;
+		   $user    	= $this->request->name;
+		   $titleSite 	= $settings->title;
+		   $data 		= $this->request->message;
+		   $_emailUser 	= $emailUser->email;
+		   $_nameUser 	= $emailUser->name;
 		   
 		Mail::send('emails.contact-organizer', array( 'data' => $data ), 
 		function($message) use ( $sender, $replyTo, $user, $titleSite, $_emailUser, $_nameUser)
@@ -248,7 +250,7 @@ class CampaignsController extends Controller
 		return view('campaigns.edit')->withData($data);
 	}//<---- End Method
 	
-		public function post_edit() {
+	public function post_edit() {
 		
 		$sql = Campaigns::where('id',$this->request->id)->where('finalized','0')->first();
 
@@ -262,8 +264,8 @@ class CampaignsController extends Controller
 			
 		// PATHS
 		$temp            = 'public/temp/';
-	    $path_small    = 'public/campaigns/small/'; 
-		$path_large   = 'public/campaigns/large/';
+	    $path_small    	 = 'public/campaigns/small/'; 
+		$path_large  	 = 'public/campaigns/large/';
 		
 		// Old images
 		$old_small     = $path_small.$sql->small_image;
@@ -345,14 +347,14 @@ class CampaignsController extends Controller
 			$endCampaign = false;
 	    }
 	    
-		$sql->title                = trim($this->request->title);
+		$sql->title         = trim($this->request->title);
 		$sql->small_image   = $image_small;
 		$sql->large_image   = $image_large;
-		$sql->description     = trim(Helper::checkTextDb($this->request->description));
-		$sql->user_id          = Auth::user()->id;
-		$sql->goal               = trim($this->request->goal);
-		$sql->location          = trim($this->request->location);
-		$sql->finalized          = $finish_campaign;
+		$sql->description   = trim(Helper::checkTextDb($this->request->description));
+		$sql->user_id       = Auth::user()->id;
+		$sql->goal          = trim($this->request->goal);
+		$sql->location      = trim($this->request->location);
+		$sql->finalized     = $finish_campaign;
 		$sql->save();
 		
 		$id_campaign = $sql->id;
@@ -374,7 +376,7 @@ class CampaignsController extends Controller
 		
 		$path_small     = 'public/campaigns/small/'; 
 		$path_large     = 'public/campaigns/large/';
-		$path_updates = 'public/campaigns/updates/';
+		$path_updates   = 'public/campaigns/updates/';
 		
 		$updates = $data->updates()->get();
 		
@@ -474,12 +476,12 @@ class CampaignsController extends Controller
 			
 	    }//<====== End HasFile
 	    
-	    $sql                        = new Updates;
+	    $sql                  = new Updates;
 		$sql->image           = $image;
 		$sql->description     = trim(Helper::checkTextDb($this->request->description));
-		$sql->campaigns_id = $this->request->id;
-		$sql->date               = Carbon::now();
-		$sql->token_id         = str_random(200);
+		$sql->campaigns_id 	  = $this->request->id;
+		$sql->date            = Carbon::now();
+		$sql->token_id        = str_random(200);
 		$sql->save();
 			    	    
 	    return response()->json([
