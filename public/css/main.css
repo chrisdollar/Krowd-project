@@ -127,6 +127,7 @@ input[type='file'] {
 ::moz-selection{ background-color: #f45302; color: white; }
 ::webkit-selection{ background-color: #f45302; color: white; }
 
+
 /******************************
  * Miscellaneous Utilities
  * ***************************
@@ -342,6 +343,15 @@ i.verified-min {
 .margin-lft5 {
    margin-left: 5px; 
 }
+.margin-lft10 {
+   margin-left: 10px; 
+}
+.margin-lft25 {
+   margin-left: 25px; 
+}
+.margin-rgt25{
+     margin-right: 25px; 
+}
 /*.navbar-form > .form-group > input.form-control {
     padding-right: 33px !important;
 }*/
@@ -358,6 +368,12 @@ i.verified-min {
  */
 .border-none {
     border: none !important;
+}
+.border-rgt2r{
+  border-radius: 0px 3px 3px 0px;
+}
+.border-lft2r{
+  border-radius: 3px 0px 0px 3px;
 }
 /*******************
  * Margin Zero
@@ -442,8 +458,12 @@ i.verified-min {
  * Padding Default
  * *****************
  */
+
 .padding-top-10 {
     padding-top: 10px !important;
+}
+.padding-top-15 {
+    padding-top: 15px !important;
 }
 .padding-top-20 {
     padding-top: 20px !important;
@@ -661,6 +681,8 @@ ul.dropdown-menu > li.active > a {
 #buttonSearch-2:hover { 
     color: #999; 
 }
+
+
 /***************************
  * Index Header
  * *************************
@@ -1195,6 +1217,11 @@ a.btn-join {
     margin-top: 10px;
     text-transform: uppercase;
 }
+
+.btn-create-pos {
+    padding: 7px 10px !important;
+    margin-top: 10px !important;
+}
 a:hover.btn-join,
 a:focus.btn-join,
 a:active.btn-join {
@@ -1203,7 +1230,7 @@ a:active.btn-join {
 }
 .no-result {
     color: #777;
-    word-wrap: break-word;
+    word-wrap: beak-word;
 }
 .color-no-result {
     color: #999 !important;
@@ -1676,13 +1703,13 @@ textarea.textarea-text:focus {
       display: none;
   }
   
-  .profile-user-over {
+ .profile-user-over {
 	margin-top: -100px  !important;
 	position relative;
 }
   
   .jumbotron.md {
-    padding: 70px 0 25px;
+    padding: 70px 0px;
   }
   
   .jumbotron.profileUser {
@@ -1984,7 +2011,7 @@ li.active-list > a:active {
 @media screen and (min-width: 768px) {
     
   .jumbotron {
-    padding: 150px 0;
+    padding:  150px 0;
   }
   
   .searchBar {
@@ -2378,7 +2405,7 @@ i.up-bottom:hover {
     opacity: 1;
 }
 .session-active-cover  {
-   padding: 120px 0;
+   padding: 150px 0;
 }
 
 .input-dragDrop {
@@ -2858,4 +2885,32 @@ to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}
     fieldset {
         display: table-cell;
     }
+}
+
+.locale-nav{
+  font-family: "Raleway",Helvetica,Arial,sans-serif;
+  margin: 18px 0px 0px 20px;
+  color: white !important;
+}
+
+.locale-nav a{
+  font-family: "Lato",Helvetica,Arial,sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white !important;
+}
+
+.locale-nav a:hover{
+  color: #f45302 !important;
+}
+
+.has-search .form-control-feedback {
+    right: initial;
+    left: 0;
+    color: #d3d3d3;
+    padding: 6px;
+}
+
+.has-search .form-control {
+    padding: 20px 35px 20px 38px;
 }

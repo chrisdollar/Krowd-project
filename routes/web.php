@@ -23,6 +23,21 @@ Route::get('/', 'HomeController@index');
 Route::get('home', function(){
 	return redirect('/');
 });
+
+Route::post('/search', 'HomeController@search');
+Route::get('/{category}/campaigns/', 'HomeController@category');
+
+
+/* 
+ |-----------------------------------
+ | Localization
+ |-----------------------------------
+ */
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale', $locale);
+    return redirect()->back();
+});
+
 /* 
 /* 
  |-----------------------------------
@@ -43,7 +58,6 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('ajax/donations', 'AjaxController@donations');
 Route::get('ajax/campaign/updates', 'AjaxController@updatesCampaign');
 Route::get('ajax/campaigns', 'AjaxController@campaigns');
-Route::get('ajax/campaigns/categories/{slug?}', 'AjaxController@campaignCategory');
 
 /* 
  |
@@ -62,15 +76,6 @@ Route::post('contact/organizer','CampaignsController@contactOrganizer');
  */
 Route::get('campaign/{id}/{slug?}','CampaignsController@view');
 
-
-/* 
- |
- |-----------------------------------
- | Search Campaign
- |--------- -------------------------
- */
-
-Route::get("campaign/search","CampaignsController@searchCampaigns");
 
 /* 
  |
@@ -191,8 +196,10 @@ Route::group(['middleware' => 'role'], function() {
 	);
 	
 	// Payments Settings
-	Route::get('panel/admin/payments','AdminController@payments');
-	Route::post('panel/admin/payments','AdminController@savePayments');
+	Route::get('panel/admin/payments/settings','AdminController@settingPayments');
+	Route::post('panel/admin/payments/settings','AdminController@savePayments');
+	Route::get('panel/admin/payments/history','AdminController@historyPayments');
+
 	
 	// Profiles Social
 	Route::get('panel/admin/profiles-social','AdminController@profiles_social');

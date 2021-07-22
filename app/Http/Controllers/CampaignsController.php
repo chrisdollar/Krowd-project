@@ -9,6 +9,7 @@ use App\Models\AdminSettings;
 use App\Models\Campaigns;
 use App\Models\Updates;
 use App\Models\User;
+use App\Models\CategoryCampaings;
 use App\Helper;
 use Carbon\Carbon;
 use Mail;
@@ -42,7 +43,7 @@ class CampaignsController extends Controller
 			return Validator::make($data, [
 			'photo'           	=> 'required|mimes:jpg,gif,png,jpe,jpeg|image_size:>='.$dimensions[0].',>='.$dimensions[1].'|max:'.$this->settings->file_size_allowed.'',
         	'title'             => 'required|min:3|max:45',
-        	'categories_id' 	=> 'required|exists:categories,id',
+        	'category_campaigns_id' 	=> 'required|exists:CategoryCampaings,id',
         	'goal'              => 'required|numeric|min:50',
         	'location'        	=> 'required|max:50',
             'description'  		=> 'required|min:20',	        
@@ -53,7 +54,7 @@ class CampaignsController extends Controller
 			return Validator::make($data, [
 				'photo'           	=> 'mimes:jpg,gif,png,jpe,jpeg|image_size:>='.$dimensions[0].',>='.$dimensions[1].'|max:'.$this->settings->file_size_allowed.'',
 		    	'title'             => 'required|min:3|max:45',
-		    	'categories_id' 	=> 'required|exists:categories,id',
+		    	'category_campaigns_id' 	=> 'required|exists:CategoryCampaings,id',
 		    	'goal'             	=> 'required|numeric|min:50',
 		    	'location'        	=> 'required|max:50',
 		        'description'  		=> 'required|min:20',
@@ -179,16 +180,6 @@ class CampaignsController extends Controller
 		
 	}// End Method
 
-	public function searchCampaigns(Request $request)
-    {
-    	if($request->has('search')){
-    		$campaigns = Campaigns::search($request->get('search'))->get();	
-    	}else{
-    		$campaigns = Campaigns::get();
-    	}
-
-    	return view('campaigns.search', compact('campaigns'));
-    }// End Method
 	
 	public function contactOrganizer() {
 		

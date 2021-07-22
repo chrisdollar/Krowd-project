@@ -194,8 +194,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </li><!-- ./Links -->
             
             <!-- Links -->
-            <li @if(Request::is('panel/admin/payments')) class="active" @endif>
+           <!--  <li @if(Request::is('panel/admin/payments')) class="active" @endif>
             	<a href="{{ url('panel/admin/payments') }}"><i class="fa fa-credit-card"></i> <span>{{ trans('misc.payment_settings') }}</span></a>
+            </li> --><!-- ./Links -->
+
+             <li class="treeview @if( Request::is('panel/admin/payments/history') || Request::is('panel/admin/payments/settings') ) active @endif">
+              <a href="{{ url('panel/admin/payments/history') }}"><i class="ion ion-social-usd"></i> <span>{{ trans('misc.payment') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
+              
+              <ul class="treeview-menu">
+                <li @if(Request::is('panel/admin/payments/settings')) class="active" @endif><a href="{{ url('panel/admin/payments/settings') }}"><i class="fa fa-circle-o"></i> {{ trans('misc.payment_history') }}</a></li>
+                <li @if(Request::is('panel/admin/payments/settings')) class="active" @endif><a href="{{ url('panel/admin/payments/settings') }}"><i class="fa fa-circle-o"></i> {{ trans('misc.payment_settings') }}</a></li>
+              </ul>
+              
             </li><!-- ./Links -->
             
             <!-- Links -->

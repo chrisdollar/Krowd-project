@@ -70,7 +70,8 @@
                       <label class="col-sm-2 control-label">{{ trans('admin.role') }}</label>
                       <div class="col-sm-10">
                         <select name="role" class="form-control" >
-                      		<option @if($data->role == 'normal') selected="selected" @endif value="normal">{{trans('admin.normal')}} {{trans('admin.normal_user')}}</option>
+                      		<option @if($data->role == 'standard') selected="selected" @endif value="standard">{{trans('admin.standard')}} {{trans('admin.standard_user')}}</option>
+                          <option @if($data->role == 'premium') selected="selected" @endif value="premium">{{trans('admin.premium')}} {{trans('admin.premium_user')}}</option>
                       		<option @if($data->role == 'admin') selected="selected" @endif value="admin">{{trans('misc.admin')}}</option>
                           </select>
                       </div>

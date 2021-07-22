@@ -6,14 +6,25 @@
       <div class="container wrap-jumbotron position-relative">
         <h1 class="title-site txt-left" id="titleSite">{{$settings->welcome_text}}</h1>
         <p class="subtitle-site txt-left"><strong>{{$settings->welcome_subtitle}}</strong></p>
+
+
+       	<div class="searchBar">
+       		<form class="form-group has-feedback has-search margin-top-20" method="POST" action="/search" role="search">
+	    		{{ csrf_field() }}
+			    <span class="fa fa-search fa-2x form-control-feedback"></span>
+			    <input type="text" name="q"class="form-control" placeholder="{{ trans('misc.search') }}...">
+		    </form>
+       	</div><!-- searchBar -->
+    	
+		
       </div><!-- container wrap-jumbotron -->
 </div><!-- jumbotron -->
 
 	<div class="container margin-bottom-40">
-			<div class="col-md-12 btn-block margin-bottom-40 head-home">
-				<h1 class="btn-block text-center class-montserrat margin-bottom-zero none-overflow">{{trans('misc.campaigns')}}</h1>
-				<h5 class="btn-block text-center class-montserrat subtitle-color">{{trans('misc.recent_campaigns')}}</h5>
-			</div>			
+		<div class="col-md-12 btn-block margin-bottom-40 head-home">
+			<h1 class="btn-block text-center class-montserrat margin-bottom-zero none-overflow">{{trans('misc.campaigns')}}</h1>
+			<h5 class="btn-block text-center class-montserrat subtitle-color">{{trans('misc.recent_campaigns')}}</h5>
+		</div>
 		
 		<div class="margin-bottom-30">
 			@include('includes.campaigns')
@@ -26,6 +37,7 @@
         <p class="subtitle-site txt-center"><strong>{{$settings->welcome_subtitle}}</strong></p>
 
       </div><!-- container wrap-jumbotron -->
+
 </div><!-- jumbotron -->
 @endsection
 

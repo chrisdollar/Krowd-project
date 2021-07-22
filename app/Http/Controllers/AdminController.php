@@ -252,9 +252,10 @@ class AdminController extends Controller {
 		return view('admin.donation-view', ['data' => $data, 'settings' => $this->settings]);
 	}//<--- End Method
 	
-	public function payments(){
+	public function settingPayments(){
 		return view('admin.payments-settings')->withSettings($this->settings);
 	}//<--- End Method
+
 	
 	public function savePayments(Request $request) {
 			
@@ -282,7 +283,6 @@ class AdminController extends Controller {
 			case 'JPY':
 				$currency_symbol  = '¥';
 				break;
-				
 			case 'BRL':
 				$currency_symbol  = 'R$';
 				break;
@@ -319,6 +319,10 @@ class AdminController extends Controller {
 	    \Session::flash('success_message', trans('admin.success_update'));
 	
 	    return redirect('panel/admin/payments');
+	}//<--- End Method
+
+	public function historyPayments(){
+		//
 	}//<--- End Method
 	
 	public function campaigns(){

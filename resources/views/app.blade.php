@@ -1,6 +1,6 @@
 <?php $settings = App\Models\AdminSettings::first(); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

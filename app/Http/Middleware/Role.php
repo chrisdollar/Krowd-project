@@ -37,7 +37,7 @@ class Role {
 				return redirect()->guest('login')
 					->with(array('login_required' => trans('auth.login_required')));
 			
-		} else if( $this->auth->User()->role == 'normal' ) {
+		} else if( $this->auth->User()->role == 'standard' ) {
 				return redirect('/');
 			}
 

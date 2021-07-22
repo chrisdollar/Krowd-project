@@ -17,19 +17,19 @@
      	
      @foreach(  $data->chunk(3) as $column )
 	    		
-	    		<div class="col-md-3 col-center margin-bottom-15">
-	    			<ul class="list-unstyled imagesCategory">
-	    		@foreach ($column as $category)
-	    		
-	        				<li>
-	        					<a class="link-category" href="{{ url('category') }}/{{ $category->slug }}">{{ $category->name }} ({{$category->campaigns()->count()}}) </a>
-	        					</li>
-	        					
-	        			@endforeach
-	        			
-	        				</ul>
-	        			</div>
-	        	@endforeach	
+		<div class="col-md-3 col-center margin-bottom-15">
+			<ul class="list-unstyled imagesCategory">
+		@foreach ($column as $category)
+		
+    				<li>
+    					<a class="link-category" href="{{ url('category') }}/{{ $category->slug }}">{{ $category->name }} ({{$category->campaigns()->count()}}) </a>
+    					</li>
+    					
+    			@endforeach
+    			
+    				</ul>
+    			</div>
+    	@endforeach	
  </div><!-- /COL MD -->
  
  </div><!-- container wrap-ui -->

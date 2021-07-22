@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AdminSettings;
 use App\Models\Campaigns;
-use App\Models\Categories;
+use App\Models\CategoryCampains;
 use App\Models\Donations;
 use App\Models\Updates;
 
@@ -29,24 +29,6 @@ class AjaxController extends Controller
 
 		return view('ajax.campaigns',['data' => $data, 'settings' => $settings])->render();
     }
-
-    public function campaignCategory($slug){
-    	$campaignCategory = null;
-
-    	 if(!empty($slug)){
-            $campaignCategory = Categories::BySlug($slug)->first();
-
-            !empty($userId)
-                ? $campaigns = Campaigns::ByCampaignCategoryId($campaignCategory->id)->ByUserId($userId)->get()
-                : $campaigns = Campaigns::ByCampaignCategoryId($campaignCategory->id)->get();
-        } else if(!empty($userId)) {
-            $campaigns = Campaigns::ByUserId($userId)->get();
-        } else {
-            $campaigns = Campaigns::all();
-        }
-
-        return view('ajax.campaigns-categories', ['campaigns' => $campaigns]);
-    }//<--- End Method
 
     public function donations()
     {
