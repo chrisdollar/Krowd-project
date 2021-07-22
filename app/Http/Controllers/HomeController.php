@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AdminSettings;
 use App\Models\Campaigns;
-use App\Models\CategoryCampains;
+use App\Models\CategoryCampaigns;
 
 class HomeController extends Controller
 {
@@ -61,7 +61,7 @@ class HomeController extends Controller
 		
 		$settings = AdminSettings::first();
 			
-		 $category = CategoryCampains::where('slug','=',$slug)->first();
+		 $category = CategoryCampaigns::where('slug','=',$slug)->first();
 	  	 $data     = Campaigns::where('status', 'active')->where('category_campaigns_id',$category->id)->orderBy('id','DESC')->paginate($settings->result_request);
 				
 		return view('default.category', ['data' => $data, 'category' => $category]);

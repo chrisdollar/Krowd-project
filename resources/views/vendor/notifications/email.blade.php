@@ -53,8 +53,8 @@ $style = [
     /* Buttons ------------------------------ */
 
     'button' => 'display: block; display: inline-block; width: 200px; min-height: 20px; padding: 10px;
-                 background-color: #3869D4; border-radius: 3px; color: #ffffff; font-size: 15px; line-height: 25px;
-                 text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
+    background-color: #3869D4; border-radius: 3px; color: #ffffff; font-size: 15px; line-height: 25px;
+    text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
 
     'button--green' => 'background-color: #22BC66;',
     'button--red' => 'background-color: #dc4d2f;',
@@ -87,108 +87,108 @@ $style = [
                                         <!-- Greeting -->
                                         <h1 style="{{ $style['header-1'] }}">
                                             @if (! empty($greeting))
-                                                {{ $greeting }}
+                                            {{ $greeting }}
                                             @else
-                                                @if ($level == 'error')
-                                                    Whoops!
-                                                @else
-                                                    Hello!
-                                                @endif
+                                            @if ($level == 'error')
+                                            Whoops!
+                                            @else
+                                            Hello!
+                                            @endif
                                             @endif
                                         </h1>
 
                                         <!-- Intro -->
                                         @foreach ($introLines as $line)
-                                            <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
-                                            </p>
+                                        <p style="{{ $style['paragraph'] }}">
+                                            {{ $line }}
+                                        </p>
                                         @endforeach
 
                                         <!-- Action Button -->
                                         @if (isset($actionText))
-                                            <table style="{{ $style['body_action'] }}" align="center" width="100%" cellpadding="0" cellspacing="0">
-                                                <tr>
-                                                    <td align="center">
-                                                        <?php
-                                                            switch ($level) {
-                                                                case 'success':
-                                                                    $actionColor = 'button--green';
-                                                                    break;
-                                                                case 'error':
-                                                                    $actionColor = 'button--red';
-                                                                    break;
-                                                                default:
-                                                                    $actionColor = 'button--blue';
-                                                            }
-                                                        ?>
+                                        <table style="{{ $style['body_action'] }}" align="center" width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td align="center">
+                                                    <?php
+                                                    switch ($level) {
+                                                        case 'success':
+                                                        $actionColor = 'button--green';
+                                                        break;
+                                                        case 'error':
+                                                        $actionColor = 'button--red';
+                                                        break;
+                                                        default:
+                                                        $actionColor = 'button--blue';
+                                                    }
+                                                    ?>
 
-                                                        <a href="{{ $actionUrl }}"
-                                                            style="{{ $fontFamily }} {{ $style['button'] }} {{ $style[$actionColor] }}"
-                                                            class="button"
-                                                            target="_blank">
-                                                            {{ $actionText }}
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        @endif
+                                                    <a href="{{ $actionUrl }}"
+                                                    style="{{ $fontFamily }} {{ $style['button'] }} {{ $style[$actionColor] }}"
+                                                    class="button"
+                                                    target="_blank">
+                                                    {{ $actionText }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    @endif
 
-                                        <!-- Outro -->
-                                        @foreach ($outroLines as $line)
-                                            <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
-                                            </p>
-                                        @endforeach
+                                    <!-- Outro -->
+                                    @foreach ($outroLines as $line)
+                                    <p style="{{ $style['paragraph'] }}">
+                                        {{ $line }}
+                                    </p>
+                                    @endforeach
 
-                                        <!-- Salutation -->
-                                        <p style="{{ $style['paragraph'] }}">
-                                            Regards,<br>{{ $settings->title }}
-                                        </p>
+                                    <!-- Salutation -->
+                                    <p style="{{ $style['paragraph'] }}">
+                                        Regards,<br>{{ $settings->title }}
+                                    </p>
 
-                                        <!-- Sub Copy -->
-                                        @if (isset($actionText))
-                                            <table style="{{ $style['body_sub'] }}">
-                                                <tr>
-                                                    <td style="{{ $fontFamily }}">
-                                                        <p style="{{ $style['paragraph-sub'] }}">
-                                                            If you’re having trouble clicking the "{{ $actionText }}" button,
-                                                            copy and paste the URL below into your web browser:
-                                                        </p>
+                                    <!-- Sub Copy -->
+                                    @if (isset($actionText))
+                                    <table style="{{ $style['body_sub'] }}">
+                                        <tr>
+                                            <td style="{{ $fontFamily }}">
+                                                <p style="{{ $style['paragraph-sub'] }}">
+                                                    If you’re having trouble clicking the "{{ $actionText }}" button,
+                                                    copy and paste the URL below into your web browser:
+                                                </p>
 
-                                                        <p style="{{ $style['paragraph-sub'] }}">
-                                                            <a style="{{ $style['anchor'] }} word-break: break-all;" href="{{ $actionUrl }}" target="_blank">
-                                                                {{ $actionUrl }}
-                                                            </a>
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        @endif
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                                <p style="{{ $style['paragraph-sub'] }}">
+                                                    <a style="{{ $style['anchor'] }} word-break: break-all;" href="{{ $actionUrl }}" target="_blank">
+                                                        {{ $actionUrl }}
+                                                    </a>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 
-                    <!-- Footer -->
-                    <tr>
-                        <td>
-                            <table style="{{ $style['email-footer'] }}" align="center" width="570" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td style="{{ $fontFamily }} {{ $style['email-footer_cell'] }}">
-                                        <p style="{{ $style['paragraph-sub'] }}">
-                                            &copy; {{ date('Y') }}
-                                            <a style="{{ $style['anchor'] }}" href="{{ url('/') }}" target="_blank">{{ $settings->title }}</a>.
-                                            All rights reserved.
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+                <!-- Footer -->
+                <tr>
+                    <td>
+                        <table style="{{ $style['email-footer'] }}" align="center" width="570" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="{{ $fontFamily }} {{ $style['email-footer_cell'] }}">
+                                    <p style="{{ $style['paragraph-sub'] }}">
+                                        &copy; {{ date('Y') }}
+                                        <a style="{{ $style['anchor'] }}" href="{{ url('/') }}" target="_blank">{{ $settings->title }}</a>.
+                                        All rights reserved.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

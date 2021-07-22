@@ -7,32 +7,30 @@
 
 @section('content')
 <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
-            {{{ trans('misc.categories') }}}
-          </h1>
-          <ol class="breadcrumb">
-            <li><a href="{{{ url('panel/admin') }}}"><i class="fa fa-dashboard"></i> {{{ trans('admin.home') }}}</a></li>
-            <li class="active">{{{ trans('misc.categories') }}}</li>
-          </ol>
-        </section>
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      {{{ trans('misc.categories') }}}
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="{{{ url('panel/admin') }}}"><i class="fa fa-dashboard"></i> {{{ trans('admin.home') }}}</a></li>
+      <li class="active">{{{ trans('misc.categories') }}}</li>
+    </ol>
+  </section>
 
-        <!-- Main content -->
-        <section class="content">
+  <!-- Main content -->
+  <section class="content">     	
 
-        	
-        	
-          <!-- Your Page Content Here -->
+    <!-- Your Page Content Here -->
 
-        </section><!-- /.content -->
-      </div><!-- /.content-wrapper -->
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
 @endsection
 
 @section('javascript')
-	
-	<!-- Morris -->
-	<script src="{{ asset('plugins/morris/raphael-min.js')}}" type="text/javascript"></script>
+
+<!-- Morris -->
+<script src="{{ asset('plugins/morris/raphael-min.js')}}" type="text/javascript"></script>
 
 @endsection

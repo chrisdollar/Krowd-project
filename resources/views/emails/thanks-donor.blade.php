@@ -62,7 +62,7 @@
                                 <tr>
                                     <td style="font-family: Arial, &#039;Helvetica Neue&#039;, Helvetica, sans-serif; color: #AEAEAE; padding: 35px; text-align: center;">
                                         <p style="margin-top: 0; color: #74787E; font-size: 12px; line-height: 1.5em;">
-                                            &copy; 2016
+                                            &copy; <?php echo date('Y'); ?> 
                                             {{$title_site}}
                                             All rights reserved.
                                         </p>

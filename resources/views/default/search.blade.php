@@ -1,5 +1,5 @@
 <?php $settings = App\Models\AdminSettings::first(); ?>
-@extends('app')
+@extends('layouts/app')
 
 @section('title'){{ e($title) }}@endsection
 
