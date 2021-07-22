@@ -9,7 +9,7 @@ use App\Models\AdminSettings;
 use App\Models\Campaigns;
 use App\Models\Updates;
 use App\Models\User;
-use App\Models\CategoryCampaings;
+use App\Models\CampaignCategory;
 use App\Helper;
 use Carbon\Carbon;
 use Mail;
@@ -43,7 +43,7 @@ class CampaignsController extends Controller
 			return Validator::make($data, [
 			'photo'           	=> 'required|mimes:jpg,gif,png,jpe,jpeg|image_size:>='.$dimensions[0].',>='.$dimensions[1].'|max:'.$this->settings->file_size_allowed.'',
         	'title'             => 'required|min:3|max:45',
-        	'category_campaigns_id' 	=> 'required|exists:CategoryCampaings,id',
+        	//'category_id' 		=> 'required|exists:CampaignCategory,id',
         	'goal'              => 'required|numeric|min:50',
         	'location'        	=> 'required|max:50',
             'description'  		=> 'required|min:20',	        
@@ -54,7 +54,7 @@ class CampaignsController extends Controller
 			return Validator::make($data, [
 				'photo'           	=> 'mimes:jpg,gif,png,jpe,jpeg|image_size:>='.$dimensions[0].',>='.$dimensions[1].'|max:'.$this->settings->file_size_allowed.'',
 		    	'title'             => 'required|min:3|max:45',
-		    	'category_campaigns_id' 	=> 'required|exists:CategoryCampaings,id',
+		    	//'category_id' 		=> 'required|exists:CampaignCategory,id',
 		    	'goal'             	=> 'required|numeric|min:50',
 		    	'location'        	=> 'required|max:50',
 		        'description'  		=> 'required|min:20',
@@ -66,9 +66,9 @@ class CampaignsController extends Controller
 	public function create() {
 		
 		// PATHS
-		$temp          = 'public/temp/';
-	    $path_small    = 'public/campaigns/small/'; 
-		$path_large    = 'public/campaigns/large/';
+		$temp          = 'temp/';
+	    $path_small    = 'campaigns/small/'; 
+		$path_large    = 'campaigns/large/';
 		
 		$input      = $this->request->all();
 		$validator = $this->validator($input);
@@ -136,7 +136,7 @@ class CampaignsController extends Controller
 		$sql->large_image   = $image_large;
 		$sql->description   = trim(Helper::checkTextDb($this->request->description));
 		$sql->user_id       = Auth::user()->id;
-		$sql->category      = $this->request->category;
+		//$sql->category_id   = Campaigns::category()->id;
 		$sql->date          = Carbon::now();
 		$sql->token_id      = str_random(200);
 		$sql->goal          = trim($this->request->goal);
@@ -144,11 +144,13 @@ class CampaignsController extends Controller
 		$sql->save();
 		
 		$id_campaign = $sql->id;
-
+		//$campaignCategories = $sql->category_id ;
+		//$categories = CampaignCategory::lists('name', 'id');
 		
 	    return response()->json([
 				        'success' => true,
 				        'target' => url('campaign',$id_campaign),
+				        //'categories' => $categories,
 				    ]);
 		
 	}//<<--- End Method
@@ -236,6 +238,7 @@ class CampaignsController extends Controller
 		$data = Campaigns::where('id', $this->request->id)
 		->where('finalized', '0')
 		->where('user_id', Auth::user()->id)
+		//->where('category_id', Campaigns::category()->id)
 		->firstOrFail();
 				
 		return view('campaigns.edit')->withData($data);
@@ -254,9 +257,9 @@ class CampaignsController extends Controller
 		}
 			
 		// PATHS
-		$temp            = 'public/temp/';
-	    $path_small    	 = 'public/campaigns/small/'; 
-		$path_large  	 = 'public/campaigns/large/';
+		$temp            = 'temp/';
+	    $path_small    	 = 'campaigns/small/'; 
+		$path_large  	 = 'campaigns/large/';
 		
 		// Old images
 		$old_small     = $path_small.$sql->small_image;
@@ -343,17 +346,21 @@ class CampaignsController extends Controller
 		$sql->large_image   = $image_large;
 		$sql->description   = trim(Helper::checkTextDb($this->request->description));
 		$sql->user_id       = Auth::user()->id;
+		//$sql->category_id   = Campaigns::category()->id;
 		$sql->goal          = trim($this->request->goal);
 		$sql->location      = trim($this->request->location);
 		$sql->finalized     = $finish_campaign;
 		$sql->save();
 		
 		$id_campaign = $sql->id;
+		//$categories = $sql->category_id ;
+		//$categories = CampaignCategory::lists('name', 'id');
 	    
 	    return response()->json([
-				        'success' => true,
-				        'target' => url('campaign',$id_campaign),
-				        'finish_campaign' => $endCampaign
+				        'success' 			 => true,
+				        'target' 			 => url('campaign',$id_campaign),
+				        //'categories' 		 => $categories,
+				        'finish_campaign'    => $endCampaign
 				        
 				    ]);
 		
@@ -365,9 +372,9 @@ class CampaignsController extends Controller
 		->where('user_id', Auth::user()->id)
 		->firstOrFail();
 		
-		$path_small     = 'public/campaigns/small/'; 
-		$path_large     = 'public/campaigns/large/';
-		$path_updates   = 'public/campaigns/updates/';
+		$path_small     = 'campaigns/small/'; 
+		$path_large     = 'campaigns/large/';
+		$path_updates   = 'campaigns/updates/';
 		
 		$updates = $data->updates()->get();
 		
@@ -409,8 +416,8 @@ class CampaignsController extends Controller
 	public function post_update(){
 		
 		// PATHS
-		$temp   = 'public/temp/';
-		$path   = 'public/campaigns/updates/';
+		$temp   = 'temp/';
+		$path   = 'campaigns/updates/';
 		
 		$sizeAllowed = $this->settings->file_size_allowed * 1024;
 		$dimensions = explode('x',$this->settings->min_width_height_image);
@@ -498,8 +505,8 @@ class CampaignsController extends Controller
 		$sql = Updates::find($this->request->id);
 		
 		// PATHS
-		$temp   = 'public/temp/';
-		$path   = 'public/campaigns/updates/';
+		$temp   = 'temp/';
+		$path   = 'campaigns/updates/';
 		
 	    $image = $sql->image;
 		
@@ -579,7 +586,7 @@ class CampaignsController extends Controller
 		->where('user_id', Auth::user()->id)
 		->first();
 		
-		$path = 'public/campaigns/updates/';
+		$path = 'campaigns/updates/';
 		
 		$data = Updates::where('id', $this->request->id)->first();
 		
@@ -592,7 +599,7 @@ class CampaignsController extends Controller
 			$data->save();
 		}
 		
-}
+	}
 	
 	
 }

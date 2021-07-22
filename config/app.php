@@ -167,7 +167,18 @@ return [
         Cviebrock\ImageValidator\ImageValidatorServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Reliese\Coders\CodersServiceProvider::class,
+
+
+        /*
+         * Socialite Service Provider
+         */
         Laravel\Socialite\SocialiteServiceProvider::class,
+
+        /*
+         * Krowd Service Providers
+         */
+        App\Providers\CampaignModuleServiceProvider::class,
+        App\Providers\UserModuleServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -235,6 +246,12 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
+        /*
+         * Krowd aliases
+         */
+        'CampaignModule' => App\Facades\CampaignModule::class,
+        'UserModule' => App\Facades\UserModule::class,
 
     ],
 

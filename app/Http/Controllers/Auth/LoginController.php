@@ -46,7 +46,7 @@ class LoginController extends Controller
     
     public function login(Request $request) {
         
-         // get our login input
+    // get our login input
     //$login = $request->input('email');
 
     // check login field

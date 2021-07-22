@@ -4,27 +4,47 @@ namespace App\Models;
 
 use App\Facades\Markdown;
 use Illuminate\Database\Eloquent\Model;
-// use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Campaigns extends Model {
-
-	// use SearchableTrait;
 
 	protected $guarded = array();
 	public $timestamps = false;
 
+
 	/**
-     * Searchable rules.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
-    // protected $searchable = [
-    //     'columns' => [
-    //     	'campaigns.id' => 3,
-    //         'campaigns.title' => 10,
-    //         'campaigns.goal' => 10,
-    //     ]
-    // ];
+    protected $fillable = [
+        'title', 'description', 'date', 'status', 'small_image', 'large_image', 'user_id', 'category_id', 'token_id', 'goal', 'location', 'finalized',
+    ];
+
+
+
+	/**
+     * Usage example Campaign::ByUserId($userId)->get();
+     *
+     * @param $query
+     * @param $id
+     * @return mixed
+     */
+    public function scopeByUserId($query, $id)
+    {
+        return $query->where('user_id', $id);
+    }
+
+    /**
+     * Usage example Campaign::ByCampaignCategoryId($categoryId)->get();
+     *
+     * @param $query
+     * @param $id
+     * @return mixed
+     */
+    public function scopeByCampaignCategoryId($query, $id)
+    {
+        return $query->where('category_id', $id);
+    }
 
 	
 	public function user() {
@@ -44,7 +64,7 @@ class Campaigns extends Model {
 	}
 	
 	public function category() {
-	 	 return $this->belongsTo('App\Models\CategoryCampaigns', 'category_campaigns_id'); 
+	 	 return $this->belongsTo('App\Models\CampaignCategory', 'category_id'); 
 	}
 
  }

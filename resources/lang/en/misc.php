@@ -212,6 +212,8 @@ return array(
 	'terms' => 'Terms',
 	'privacy' => 'Privacy',
 	'about_us' => 'About us',
+	'browse_campaign'  => 'Browse',
+	'choose_category' => 'Select Category',
 	
 	'enter_your_donation' => 'Enter your donation',
 	'country' => 'Country',

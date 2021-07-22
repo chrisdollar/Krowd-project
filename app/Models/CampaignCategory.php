@@ -4,26 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class PaymentStatus
- * @package App
- */
-class PaymentStatus extends Model
-{
-    const PENDING_ID = 1;
-    const SUCCESSFUL_ID = 2;
-    const FAILED_ID = 3;
 
-    const PENDING_SLUG = 'pending';
-    const SUCCESSFUL_SLUG = 'successful';
-    const FAILED_SLUG = 'failed';
+class CampaignCategory extends Model 
+{
+    protected $guarded = array();
+    public $timestamps = false;
+    
+	
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'payment_statuses';
+    protected $table = 'campaign_categories';
     
     /**
      * The attributes that are mass assignable.
@@ -31,7 +25,7 @@ class PaymentStatus extends Model
      * @var array
      */
     protected $fillable = [
-        'slug', 'label', 'description',
+        'name', 'slug', 'mode',
     ];
 
     /**
@@ -43,4 +37,10 @@ class PaymentStatus extends Model
     {
         return $query->where('slug', $slug);
     }
+    
+    public function scopeGetCategories()
+    {
+        return $query->select('*');
+    }
+
 }

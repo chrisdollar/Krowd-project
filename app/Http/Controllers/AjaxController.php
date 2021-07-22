@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AdminSettings;
 use App\Models\Campaigns;
-use App\Models\CategoryCampains;
+use App\Models\CampaignCategory;
 use App\Models\Donations;
 use App\Models\Updates;
 

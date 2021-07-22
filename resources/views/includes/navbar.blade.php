@@ -13,14 +13,18 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="{{ url('/') }}">
-        <img src="{{ asset('img/logo.png') }}" class="logo" />
+        <img src="{{ asset('img/logo.png') }}" class="logo"/>
       </a>
     </div><!-- navbar-header --> 
 
     <div class="navbar-collapse collapse">
 
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-left">
+        {!! CampaignModule::renderNavigationDropDown() !!}
+      </ul>
 
+      <ul class="nav navbar-nav navbar-right">
+        
         <li @if(Request::is('/')) class="active-navbar" @endif>
           <a class="text-uppercase font-default" href="{{ url('/') }}">{{ trans('misc.campaigns') }}</a>
         </li>
@@ -69,19 +73,6 @@
             </ul><!-- DROPDOWN MENU -->
           </li>
           @endif
-          <!-- <li>
-            <form class="form-horizontal margin-top-10 margin-lft10" method="POST" action="/search" role="search">
-              {{ csrf_field() }}
-              <div class="row">
-                <div class="col-md-10 padding-right-zero">
-                  <input type="text" name="q" class="form-control border-lft2r" placeholder="{{ trans('misc.search') }}..." value="{{ old('search') }}">
-                </div>
-                <div class="col-md-2 padding-left-zero">
-                  <button type="submit" class="btn btn-primary border-2r" ><i class="fa fa-search"></i></button>
-                </div>	
-              </div>
-            </form>
-          </li> -->
 
           <li><a class="log-in custom-rounded btn-create-pos margin-lft25" href="{{url('create/campaign')}}" title="{{trans('misc.create_campaign')}}">
             <i class="glyphicon glyphicon-edit"></i> <span class="text-uppercase font-default">{{trans('misc.create_campaign')}}</span></a>

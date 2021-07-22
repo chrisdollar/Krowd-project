@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Socialite;
 use Auth;
+use Socialite;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class SocialController extends Controller
 {

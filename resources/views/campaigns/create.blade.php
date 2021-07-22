@@ -22,7 +22,7 @@
 				@include('errors.errors-forms')
 
 				<!-- form start -->
-				<form method="POST" action="{{ url('store/campaign') }}" enctype="multipart/form-data" id="formUpload">
+				<form method="POST" action="{{ url('create/campaign') }}" enctype="multipart/form-data" id="formUpload">
 
 					<input type="hidden" name="_token" value="{{ csrf_token() }}">
 					<div class="filer-input-dragDrop position-relative" id="draggable">
@@ -54,15 +54,14 @@
 						<input type="text" value="{{ old('title') }}" name="title" id="title" class="form-control" placeholder="{{ trans('misc.campaign_title') }}">
 					</div><!-- /.form-group-->
 
-					<div class="form-group">
-						<label>Category</label>
-						<select name="category"  class="form-control">
+					<!-- <div class="form-group">
+						<label for="category_id" class="control-label">{{ trans('misc.choose_category') }}</label>
+						<select name="category_id"  class="form-control">
 							@foreach($categories as $category)
 							<option value="{{$category->id}}"> {{$category->name}}</option>
 							@endforeach
 						</select>
-
-					</div><!-- /.form-group-->
+					</div> --><!-- /.form-group-->
 
 					<div class="form-group">
 						<label>{{ trans('misc.campaign_goal') }}</label>

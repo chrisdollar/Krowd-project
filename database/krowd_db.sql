@@ -1,5 +1,36 @@
-CREATE TABLE `admin_settings` (
-  `id` int(10) UNSIGNED NOT NULL,
+-- phpMyAdmin SQL Dump
+-- version 4.9.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3308
+-- Generation Time: Jul 22, 2021 at 02:55 PM
+-- Server version: 5.7.28
+-- PHP Version: 7.4.0
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `krowd_db`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_settings`
+--
+
+DROP TABLE IF EXISTS `admin_settings`;
+CREATE TABLE IF NOT EXISTS `admin_settings` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `welcome_text` varchar(200) NOT NULL,
@@ -25,44 +56,78 @@ CREATE TABLE `admin_settings` (
   `min_campaign_amount` int(11) UNSIGNED NOT NULL,
   `payment_gateway` enum('Paypal','Stripe') NOT NULL DEFAULT 'Paypal',
   `paypal_sandbox` enum('true','false') NOT NULL DEFAULT 'true',
-  `min_width_height_image` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `min_width_height_image` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `admin_settings`
+--
 
 INSERT INTO `admin_settings` (`id`, `title`, `description`, `welcome_text`, `welcome_subtitle`, `keywords`, `result_request`, `status_page`, `email_verification`, `email_no_reply`, `email_admin`, `captcha`, `file_size_allowed`, `google_analytics`, `paypal_account`, `twitter`, `facebook`, `googleplus`, `instagram`, `google_adsense`, `currency_symbol`, `currency_code`, `min_donation_amount`, `min_campaign_amount`, `payment_gateway`, `paypal_sandbox`, `min_width_height_image`) VALUES
-(1, 'Crowdfunding | Crowdfunding Platform', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet. ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet.', 'Little help, for big cause!', 'Crowdfunding Platform', 'Crowdfunding, crowfund, fundme, campaign', 8, '1', '0', 'no-reply@phpscriptsonline.com', 'admin@phpscriptsonline.com', 'off', 2048, '', 'sasi@gmail.com', 'https://www.twitter.com/', 'https://www.facebook.com/fundme', 'https://plus.google.com/', 'https://www.instagram.com/', '<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>\r\n<ins class=\"adsbygoogle\"\r\nstyle=\"display:block\"\r\ndata-ad-client=\"ca-pub-4300901855004979\"\r\ndata-ad-slot=\"7623553448\"\r\ndata-ad-format=\"auto\"></ins> <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>', '$', 'USD', 5, 100, 'Paypal', 'true', '800x400');
+(1, 'Krowd | Crowdfunding Platform', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet. ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet.', 'Little help, for big cause!', 'Crowdfunding Platform', 'Crowdfunding, crowfund, fundme, campaign', 12, '1', '0', 'no-reply@example.com', 'admin@example.com', 'off', 1024, '', 'sasi@gmail.com', 'https://www.twitter.com/krowd', 'https://www.facebook.com/krowd', 'https://plus.google.com/krowd', 'https://www.instagram.com/krowd', '<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>\r\n<ins class=\"adsbygoogle\"\r\nstyle=\"display:block\"\r\ndata-ad-client=\"ca-pub-4300901855004979\"\r\ndata-ad-slot=\"7623553448\"\r\ndata-ad-format=\"auto\"></ins> <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>', '$', 'USD', 5, 100, 'Paypal', 'true', '800x400');
 
-CREATE TABLE `campaigns` (
-  `id` int(11) NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `campaigns`
+--
+
+DROP TABLE IF EXISTS `campaigns`;
+CREATE TABLE IF NOT EXISTS `campaigns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `small_image` varchar(255) NOT NULL,
   `large_image` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `category_campaings_id` int(11) UNSIGNED NOT NULL,
+  `category_id` int(11) UNSIGNED NOT NULL,
   `description` text NOT NULL,
   `user_id` int(11) UNSIGNED NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` enum('pending', 'active', 'featured', 'rejected', 'funded', 'not-funded') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','active','featured','rejected','funded','not-funded') NOT NULL DEFAULT 'pending',
   `token_id` varchar(255) NOT NULL,
   `goal` int(11) UNSIGNED NOT NULL,
   `location` varchar(200) NOT NULL,
-  `finalized` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 No 1 Yes'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `finalized` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 No 1 Yes',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token_id` (`token_id`),
+  KEY `author_id` (`user_id`,`status`,`token_id`),
+  KEY `image` (`small_image`),
+  KEY `goal` (`goal`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
-INSERT INTO `campaigns` (`id`, `small_image`, `large_image`, `title`, `category_campaings_id`, `description`, `user_id`, `date`, `status`, `token_id`, `goal`, `location`, `finalized`) VALUES
-(1, '1464967090.jpg', '1464967090.jpg', 'Purchase of uniforms season 2016', '1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 1, '2016-09-13 06:59:15', 'active', 'jFoHsUP4CjY5YM9koC5mjkSHLhp9HyEOxTKRbjhrhqFmEDI1KCXKMTq3NccWDUP2TycvkHSJdjz0ntUkbeYA8Lsv7CLgXsZg4a6Tg5Uis7HL1wjvVekdmhGEtUyxKNV6Xf61LAJEpRlfKpPpaXJdqv8OtKp6ggWO7wymAYChS94bEdvhbokn1N86vI1AjwcfuEhLgWRH', 15000, 'Miami, Florida', '1'),
-(2, '1458113122.jpg', '1458113122.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', '2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 2, '2016-09-13 07:14:15', 'active', 'aFoHsUP4CjY5YM9koC5mjkSHLhp9HyEOxTKRbjhrhqFmEDI1KCXKMTq3NccWDUP2TycvkHSJdjz0ntUkbeYA8Lsv7CLgXsZg4a6Tg5Uis7HL1wjvVekdmhGEtUyxKNV6Xf61LAJEpRlfKpPpaXJdqv8OtKp6ggWO7wymAYChS94bEdvhbokn1N86vI1AjwcfuEhLgWRH', 25800, 'New York', '0'),
-(3, '1458376530.jpg', '1458376530.jpg', 'Praesent eget orci id sem commodo aliquet', '3', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet.\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 1, '2016-09-13 07:15:15', 'active', 'bFoHsUP4CjY5YM9koC5mjkSHLhp9HyEOxTKRbjhrhqFmEDI1KCXKMTq3NccWDUP2TycvkHSJdjz0ntUkbeYA8Lsv7CLgXsZg4a6Tg5Uis7HL1wjvVekdmhGEtUyxKNV6Xf61LAJEpRlfKpPpaXJdqv8OtKp6ggWO7wymAYChS94bEdvhbokn1N86vI1AjwcfuEhLgWRH', 30500, 'Boston', '0'),
-(4, '1469177313.png', '1469177313.png', 'Integer ut tortor rutrum massa efficitur', '4', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet.\r\n\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 1, '2016-09-13 07:15:50', 'active', 'qFoHsUP4CjY5YM9koC5mjkSHLhp9HyEOxTKRbjhrhqFmEDI1KCXKMTq3NccWDUP2TycvkHSJdjz0ntUkbeYA8Lsv7CLgXsZg4a6Tg5Uis7HL1wjvVekdmhGEtUyxKNV6Xf61LAJEpRlfKpPpaXJdqv8OtKp6ggWO7wymAYChS94bEdvhbokn1N86vI1AjwcfuEhLgWRH', 150000, 'Kansas City', '0'),
-(5, 'manuel-rodriguez-the-ice-cream-man1474336183jnilhwltrb.jpg', 'large-manuel-rodriguez-the-ice-cream-man1474336183vkdkxze57j.jpg', 'Manuel Rodriguez the Ice cream man', '5', 'If you’re from Joliet many of you have seen **Manuel (aka Pancho)** pushing his cart through Joliet. I saw the story on the little village paltero and how a community came together to help their local paltero. With that being said, some friends and I decided to launch this campaign to help Pancho, a hard working 79 year old Joliet paltero man with back problems that was also recently attacked by a pitbull. He’s been pushing his cart all around Joliet for as long as I can remember and we’d like to help him out with his bills which include medical bills due to the pitbull attack in which he suffered from numerous bites while selling his ice cream.\r\n\r\n* Special 1\r\n* Special 2\r\n* Special 3', 2, '2016-09-20 06:19:43', 'active', 'XXBxKmwv9FnattTmtnKry7I9NTmZ7aC4euC17IEnd7sThcRIqoHhFyFDgwd01yRF5J7jBm6Gojz1VCRq8QY2lzzfAC8X5LVgYxhPnITCxI3IdZfpkZkaxXYkqaP8FqidDddKwrQCnG3Pz6snFToGekdDORJ8xVI7frZEKkNRJYiT8Eio0aQhUBoSt45DPlITD3cNUkS3', 15000, 'Miami, Florida', '0'),
-(6, 'support-team-tigers21474338484yqvlixrapz.jpg', 'support-team-tigers21474338484cy2l3nkoqo.jpg', 'Support team Tigers!', '6', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 2, '2016-09-20 06:58:05', 'active', 'jGFagKR3bmKfqWLfGwHGcNxrDt38AujLcY5RRQBHThxGVIyjtiRpajrOvP4mMky8t4mlnjn12HnaYaiNpEhADY5yOePkpe9y7GfhdPdOJhWVhDkwHkiWRsovYWsGEGpgPPwu6Ji31D0yYyftmNvVmcLcnBSSUE3cEyIAvfOqoxfZrwbvUnrykFe4AD1smmIPvtYb1C7a', 15000, 'Orlando, Florida', '0');
+--
+-- Dumping data for table `campaigns`
+--
 
-CREATE TABLE `category_campaigns` (
-  `id` int(11) UNSIGNED NOT NULL,
+INSERT INTO `campaigns` (`id`, `small_image`, `large_image`, `title`, `category_id`, `description`, `user_id`, `date`, `status`, `token_id`, `goal`, `location`, `finalized`) VALUES
+(1, '1464967090.jpg', '1464967090.jpg', 'Purchase of uniforms season 2016', 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 1, '2016-09-13 06:59:15', 'active', 'jFoHsUP4CjY5YM9koC5mjkSHLhp9HyEOxTKRbjhrhqFmEDI1KCXKMTq3NccWDUP2TycvkHSJdjz0ntUkbeYA8Lsv7CLgXsZg4a6Tg5Uis7HL1wjvVekdmhGEtUyxKNV6Xf61LAJEpRlfKpPpaXJdqv8OtKp6ggWO7wymAYChS94bEdvhbokn1N86vI1AjwcfuEhLgWRH', 15000, 'Miami, Florida', '1'),
+(2, '1458113122.jpg', '1458113122.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 2, '2016-09-13 07:14:15', 'active', 'aFoHsUP4CjY5YM9koC5mjkSHLhp9HyEOxTKRbjhrhqFmEDI1KCXKMTq3NccWDUP2TycvkHSJdjz0ntUkbeYA8Lsv7CLgXsZg4a6Tg5Uis7HL1wjvVekdmhGEtUyxKNV6Xf61LAJEpRlfKpPpaXJdqv8OtKp6ggWO7wymAYChS94bEdvhbokn1N86vI1AjwcfuEhLgWRH', 25800, 'New York', '0'),
+(3, '1458376530.jpg', '1458376530.jpg', 'Praesent eget orci id sem commodo aliquet', 3, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet.\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 1, '2016-09-13 07:15:15', 'active', 'bFoHsUP4CjY5YM9koC5mjkSHLhp9HyEOxTKRbjhrhqFmEDI1KCXKMTq3NccWDUP2TycvkHSJdjz0ntUkbeYA8Lsv7CLgXsZg4a6Tg5Uis7HL1wjvVekdmhGEtUyxKNV6Xf61LAJEpRlfKpPpaXJdqv8OtKp6ggWO7wymAYChS94bEdvhbokn1N86vI1AjwcfuEhLgWRH', 30500, 'Boston', '0'),
+(4, '1469177313.png', '1469177313.png', 'Integer ut tortor rutrum massa efficitur', 4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet.\r\n\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 1, '2016-09-13 07:15:50', 'active', 'qFoHsUP4CjY5YM9koC5mjkSHLhp9HyEOxTKRbjhrhqFmEDI1KCXKMTq3NccWDUP2TycvkHSJdjz0ntUkbeYA8Lsv7CLgXsZg4a6Tg5Uis7HL1wjvVekdmhGEtUyxKNV6Xf61LAJEpRlfKpPpaXJdqv8OtKp6ggWO7wymAYChS94bEdvhbokn1N86vI1AjwcfuEhLgWRH', 150000, 'Kansas City', '0'),
+(5, 'manuel-rodriguez-the-ice-cream-man1474336183jnilhwltrb.jpg', 'large-manuel-rodriguez-the-ice-cream-man1474336183vkdkxze57j.jpg', 'Manuel Rodriguez the Ice cream man', 5, 'If you’re from Joliet many of you have seen **Manuel (aka Pancho)** pushing his cart through Joliet. I saw the story on the little village paltero and how a community came together to help their local paltero. With that being said, some friends and I decided to launch this campaign to help Pancho, a hard working 79 year old Joliet paltero man with back problems that was also recently attacked by a pitbull. He’s been pushing his cart all around Joliet for as long as I can remember and we’d like to help him out with his bills which include medical bills due to the pitbull attack in which he suffered from numerous bites while selling his ice cream.\r\n\r\n* Special 1\r\n* Special 2\r\n* Special 3', 2, '2016-09-20 06:19:43', 'active', 'XXBxKmwv9FnattTmtnKry7I9NTmZ7aC4euC17IEnd7sThcRIqoHhFyFDgwd01yRF5J7jBm6Gojz1VCRq8QY2lzzfAC8X5LVgYxhPnITCxI3IdZfpkZkaxXYkqaP8FqidDddKwrQCnG3Pz6snFToGekdDORJ8xVI7frZEKkNRJYiT8Eio0aQhUBoSt45DPlITD3cNUkS3', 15000, 'Miami, Florida', '0'),
+(6, 'support-team-tigers21474338484yqvlixrapz.jpg', 'support-team-tigers21474338484cy2l3nkoqo.jpg', 'Support team Tigers!', 6, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 2, '2016-09-20 06:58:05', 'active', 'jGFagKR3bmKfqWLfGwHGcNxrDt38AujLcY5RRQBHThxGVIyjtiRpajrOvP4mMky8t4mlnjn12HnaYaiNpEhADY5yOePkpe9y7GfhdPdOJhWVhDkwHkiWRsovYWsGEGpgPPwu6Ji31D0yYyftmNvVmcLcnBSSUE3cEyIAvfOqoxfZrwbvUnrykFe4AD1smmIPvtYb1C7a', 15000, 'Orlando, Florida', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `campaign_categories`
+--
+
+DROP TABLE IF EXISTS `campaign_categories`;
+CREATE TABLE IF NOT EXISTS `campaign_categories` (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `slug` varchar(200) NOT NULL,
-  `mode` enum('on','off') NOT NULL DEFAULT 'on'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `mode` enum('on','off') NOT NULL DEFAULT 'on',
+  PRIMARY KEY (`id`),
+  KEY `slug` (`slug`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
-INSERT INTO `category_campaigns` (`id`, `name`, `slug`, `mode`) VALUES
+--
+-- Dumping data for table `campaign_categories`
+--
+
+INSERT INTO `campaign_categories` (`id`, `name`, `slug`, `mode`) VALUES
 (1, 'Business', 'Business', 'on'),
 (2, 'Charity', 'Charity', 'on'),
 (3, 'Community', 'Community', 'on'),
@@ -81,8 +146,15 @@ INSERT INTO `category_campaigns` (`id`, `name`, `slug`, `mode`) VALUES
 (16, 'Sports', 'Sports', 'on'),
 (17, 'Animals', 'Animals', 'on');
 
-CREATE TABLE `contact_messages` (
-  `id` int(10) UNSIGNED NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_messages`
+--
+
+DROP TABLE IF EXISTS `contact_messages`;
+CREATE TABLE IF NOT EXISTS `contact_messages` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `full_name` varchar(100) NOT NULL,
   `email` varchar(150) NOT NULL,
   `subject` varchar(100) NOT NULL,
@@ -90,14 +162,30 @@ CREATE TABLE `contact_messages` (
   `user_id` int(10) UNSIGNED NOT NULL,
   `ip` varchar(255) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` enum('new','readed') NOT NULL DEFAULT 'new'
+  `status` enum('new','readed') NOT NULL DEFAULT 'new',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `ip` (`ip`),
+  KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `countries` (
-  `id` int(11) NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countries`
+--
+
+DROP TABLE IF EXISTS `countries`;
+CREATE TABLE IF NOT EXISTS `countries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `country_code` varchar(2) NOT NULL DEFAULT '',
-  `country_name` varchar(100) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `country_name` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=243 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `countries`
+--
 
 INSERT INTO `countries` (`id`, `country_code`, `country_name`) VALUES
 (1, 'US', 'United States'),
@@ -343,8 +431,15 @@ INSERT INTO `countries` (`id`, `country_code`, `country_name`) VALUES
 (241, 'ZM', 'Zambia'),
 (242, 'ZW', 'Zimbabwe');
 
-CREATE TABLE `donations` (
-  `id` int(10) UNSIGNED NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `donations`
+--
+
+DROP TABLE IF EXISTS `donations`;
+CREATE TABLE IF NOT EXISTS `donations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `campaigns_id` int(11) UNSIGNED NOT NULL,
   `fullname` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
@@ -355,8 +450,14 @@ CREATE TABLE `donations` (
   `oauth_uid` varchar(200) NOT NULL,
   `comment` varchar(200) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `anonymous` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 No, 1 Yes'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `anonymous` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 No, 1 Yes',
+  PRIMARY KEY (`id`),
+  KEY `campaigns_id` (`campaigns_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `donations`
+--
 
 INSERT INTO `donations` (`id`, `campaigns_id`, `fullname`, `email`, `country`, `postal_code`, `donation`, `payment_gateway`, `oauth_uid`, `comment`, `date`, `anonymous`) VALUES
 (1, 4, 'Mike Doe', 'mike@doe.com', 'US', '234564', 500, 'paypal', '', '', '2016-09-13 08:14:35', '0'),
@@ -374,9 +475,68 @@ INSERT INTO `donations` (`id`, `campaigns_id`, `fullname`, `email`, `country`, `
 (13, 3, 'Mary Kate Holmes', 'mary@holmes.com', 'US', '283928', 2000, 'Paypal', '', '', '2016-09-14 20:45:55', '0'),
 (14, 5, 'Yaki Lee Juhad', 'yaaki@corporation.com', 'US', '232434', 1500, 'Paypal', '', '', '2016-09-20 02:39:07', '0');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pages`
+--
+
+DROP TABLE IF EXISTS `pages`;
+CREATE TABLE IF NOT EXISTS `pages` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) NOT NULL,
+  `content` text NOT NULL,
+  `slug` varchar(100) NOT NULL,
+  `show_navbar` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 No, 1 Yes',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pages`
+--
+
+INSERT INTO `pages` (`id`, `title`, `content`, `slug`, `show_navbar`) VALUES
+(2, 'Terms', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets \r\n\r\n<br/><br/>\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets \r\n\r\n<br/><br/>\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets ', 'terms-of-service', '0'),
+(3, 'Privacy', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets \n\n<br/><br/>\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 'privacy', '0'),
+(5, 'About us', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets<br />\r\n<br />\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n', 'about', '1'),
+(7, 'Support', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets <br /><br /> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>', 'support', '0'),
+(8, 'How it works', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n', 'how-it-works', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_resets`
+--
+
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `token` varchar(150) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `id_hash` (`token`),
+  KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `token`, `email`, `created_at`) VALUES
+(1, '92e870ce9f7a5e8a27dec37161bce7b501bc35bad0360190c7b39674f88a2cdf', 'cfkouacou@example.com', '2021-07-10 07:21:24'),
+(2, '3308e00e3115fef24cdbdf74bbd2424d769da3dc9b98dc738eda614debc1285d', 'admin@example.com', '2021-07-10 09:53:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+DROP TABLE IF EXISTS `payments`;
 CREATE TABLE IF NOT EXISTS `payments` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) UNSIGNED  NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
   `campaigns_id` int(11) UNSIGNED NOT NULL,
   `amount` bigint(20) NOT NULL,
   `payment_status_id` smallint(6) NOT NULL,
@@ -385,22 +545,13 @@ CREATE TABLE IF NOT EXISTS `payments` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- --------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `record_statuses` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `label` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `description` varchar(140) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `record_statuses_slug_unique` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+--
+-- Table structure for table `payment_statuses`
+--
 
-INSERT INTO `record_statuses` (`id`, `slug`, `label`, `description`, `updated_at`) VALUES
-(1, 'active', 'Active', '', NULL),
-(2, 'not-active', 'Not Active', '', NULL);
-
+DROP TABLE IF EXISTS `payment_statuses`;
 CREATE TABLE IF NOT EXISTS `payment_statuses` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -411,43 +562,60 @@ CREATE TABLE IF NOT EXISTS `payment_statuses` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `payment_statuses_slug_unique` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `payment_statuses` (`id`, `slug`, `label`, `description`, `record_status_id`, `updated_at`) VALUES
-(1, 'pending', 'Pending', '', 1,  NULL),
-(2, 'successful', 'Successful', '', 1,  NULL),
-(3, 'failed', 'Failed', '', 1,  NULL);
+--
+-- Dumping data for table `payment_statuses`
+--
 
-CREATE TABLE `pages` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `title` varchar(150) NOT NULL,
-  `content` text NOT NULL,
-  `slug` varchar(100) NOT NULL,
-  `show_navbar` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0 No, 1 Yes'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `payment_statuses` (`id`, `slug`, `label`, `description`, `record_status_id`, `created_at`, `updated_at`) VALUES
+(1, 'pending', 'Pending', '', 1, '2021-07-18 14:17:45', NULL),
+(2, 'successful', 'Successful', '', 1, '2021-07-18 14:17:45', NULL),
+(3, 'failed', 'Failed', '', 1, '2021-07-18 14:17:45', NULL);
 
-INSERT INTO `pages` (`id`, `title`, `content`, `slug`, `show_navbar`) VALUES
-(2, 'Terms', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets \r\n\r\n<br/><br/>\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets \r\n\r\n<br/><br/>\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets ', 'terms-of-service', '0'),
-(3, 'Privacy', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets \n\n<br/><br/>\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 'privacy', '0'),
-(5, 'About us', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets<br />\r\n<br />\r\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n', 'about', '1'),
-(7, 'Support', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets <br /><br /> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>', 'support', '0'),
-(8, 'How it works', '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>\r\n', 'how-it-works', '1');
+-- --------------------------------------------------------
 
-CREATE TABLE `password_resets` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `token` varchar(150) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--
+-- Table structure for table `record_statuses`
+--
 
-INSERT INTO `password_resets` (`id`, `token`, `email`, `created_at`) VALUES
-(1, '92e870ce9f7a5e8a27dec37161bce7b501bc35bad0360190c7b39674f88a2cdf', 'cfkouacou@example.com', '2021-07-10 07:21:24'),
-(2, '3308e00e3115fef24cdbdf74bbd2424d769da3dc9b98dc738eda614debc1285d', 'admin@example.com', '2021-07-10 09:53:20');
+DROP TABLE IF EXISTS `record_statuses`;
+CREATE TABLE IF NOT EXISTS `record_statuses` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `label` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(140) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `record_statuses_slug_unique` (`slug`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `reserved` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--
+-- Dumping data for table `record_statuses`
+--
+
+INSERT INTO `record_statuses` (`id`, `slug`, `label`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'active', 'Active', '', '2021-07-18 14:17:45', NULL),
+(2, 'not-active', 'Not Active', '', '2021-07-18 14:17:45', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reserved`
+--
+
+DROP TABLE IF EXISTS `reserved`;
+CREATE TABLE IF NOT EXISTS `reserved` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `reserved`
+--
 
 INSERT INTO `reserved` (`id`, `name`) VALUES
 (14, 'account'),
@@ -491,14 +659,30 @@ INSERT INTO `reserved` (`id`, `name`) VALUES
 (4, 'vendor'),
 (5, 'xxx');
 
-CREATE TABLE `updates` (
-  `id` int(11) NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `updates`
+--
+
+DROP TABLE IF EXISTS `updates`;
+CREATE TABLE IF NOT EXISTS `updates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `image` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `campaigns_id` int(10) UNSIGNED NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `token_id` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `token_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token_id` (`token_id`),
+  KEY `author_id` (`token_id`),
+  KEY `image` (`image`),
+  KEY `category_campaigns_id` (`campaigns_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `updates`
+--
 
 INSERT INTO `updates` (`id`, `image`, `description`, `campaigns_id`, `date`, `token_id`) VALUES
 (1, '1464967090.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 4, '2016-09-13 06:59:15', 'jFoHsUP4CjY5YM9koC5mjkSHLhp9HyEOxTKRbjhrhqFmEDI1KCXKMTq3NccWDUP2TycvkHSJdjz0ntUkbeYA8Lsv7CLgXsZg4a6Tg5Uis7HL1wjvVekdmhGEtUyxKNV6Xf61LAJEpRlfKpPpaXJdqv8OtKp6ggWO7wymAYChS94bEdvhbokn1N86vI1AjwcfuEhLgWRH'),
@@ -510,230 +694,86 @@ INSERT INTO `updates` (`id`, `image`, `description`, `campaigns_id`, `date`, `to
 (8, '', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet. ipsum dolor sit amet, consectetur adipiscing elit\r\n\r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet. ipsum dolor sit amet, consectetur adipiscing elit\r\n\r\nTesting', 6, '2016-09-23 11:50:14', 'Lni8O72F96iXOqeveVPjcpKEdo9idHPyAPpDJq3iBQM10tJB7NWCypDcpqXahimGF7aZfwjfreZqPRsPo2iZuHW9UovTIklJU3tLDWVyGnVtQqWO9zsLBDdrOYcqOxi6osHu8bGKc9gS3CvVBl8oYEoDha7A8lUaoDM2H7JICZlshLXSDQ6WEDTgmES5MGlSFRzZ3JTJ'),
 (9, '', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut tortor rutrum massa efficitur tincidunt vel nec lacus. Curabitur porta aliquet diam, eu gravida neque lacinia in. Praesent eget orci id sem commodo aliquet', 6, '2016-09-23 11:53:58', '8rpxMYyXjd1z8QVrk7VfAzJLGOfhM3fqDUyDN5GFJ59BwKfDUZoYAkwgir6fDrPtyhTHfud61dtrER4m1KSiIdxBwyVR0HhMKwoX7eLEW3HdftSqzUTgh3CDSK8QXSbfflTFsjdwd6XAQLOmhdNpLIhJrTbiQabzbJEllDVAt2KGM7LKHAb7XjfyfAOb1ghN9KM54RHh');
 
-CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `countries_id` char(25) NULL DEFAULT NULL,
+  `countries_id` char(25) DEFAULT NULL,
   `password` char(60) NOT NULL,
   `email` varchar(255) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `avatar` varchar(70) NULL DEFAULT NULL,
+  `avatar` varchar(70) DEFAULT NULL,
   `status` enum('pending','active','suspended','delete') NOT NULL DEFAULT 'active',
   `role` enum('standard','premium','admin') NOT NULL DEFAULT 'standard',
-  `remember_token` varchar(100) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `token` varchar(80) NOT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `username` (`status`),
+  KEY `role` (`role`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-INSERT INTO `users` (`id`, `name`, `countries_id`, `password`, `email`, `date`, `avatar`, `status`, `role`, `remember_token`, `token`, `updated_at`) VALUES
-(1, 'Krowd Admin', '', '$2y$10$XzUZMAN.KUwPkpg0xSIDi.GOvyF1JDeciikz.lZJvwgMVzQqKP6uu', 'admin@example.com', '2021-07-10 11:04:42', '11475147757yvjfoku2pktmkia.jpg', 'active', 'admin', 'jU1ANKOrbx2aIHdk96ZwtVACAzVa3VoXg9340PyqfcHmc2ujYWItwF3jAoyR', 'Wy4VkAl2dxHb9WHoXjTowSGPXFPnEQHca6RBe2yeqqmRafs0hSbCEobhNkZZAbCDIru60ceLzAAOI3fj', '2021-07-17 14:49:22'),
-(2, 'Christian Kabran', '', '$2y$10$XzUZMAN.KUwPkpg0xSIDi.GOvyF1JDeciikz.lZJvwgMVzQqKP6uu', 'cfkouacou@example.com', '2021-07-10 12:44:20', 'default.jpg', 'active', 'standard', 'QwpnnuQUFh4h9Mg2vBlQSwRV0EKupg3b1vWbCjbckwsOCXQ4K05pmQZDw78S', 'XI2yuKhwYfVfT6B7y6UZSgCvT35gM65gsYzPU9NJLNRuUAHNSe0Pcq14mAQs8FWhJOlRyStuJAIvMz9e', '2021-07-17 14:59:55'),
-(3, 'Herve Aman', '', '$2y$10$XzUZMAN.KUwPkpg0xSIDi.GOvyF1JDeciikz.lZJvwgMVzQqKP6uu', 'haman@example.com', '2021-07-10 12:38:20', 'default.jpg', 'active', 'premium', 'cWMCt2pA78Y9gQoiqMfFS9pbZIi2fPud0vBsgiPKYZf2PeMfIKRklZGH1oKf', 'ElWawZOolicfoIMj548UOaie8niRNEkY96TZZPtCQTzYi2s7mRHEVaBMkzLuY0aETciCGjLmdKu', '2021-07-17 14:50:21');
+--
+-- Dumping data for table `users`
+--
 
-CREATE TABLE `users_reporteds` (
-  `id` int(10) UNSIGNED NOT NULL,
+INSERT INTO `users` (`id`, `name`, `countries_id`, `password`, `email`, `date`, `avatar`, `status`, `role`, `remember_token`, `token`, `updated_at`, `created_at`) VALUES
+(1, 'Krowd Admin', '', '$2y$10$XzUZMAN.KUwPkpg0xSIDi.GOvyF1JDeciikz.lZJvwgMVzQqKP6uu', 'admin@example.com', '2021-07-10 11:04:42', '11475147757yvjfoku2pktmkia.jpg', 'active', 'admin', 'K6TctleF2Svae3n1BovWkCnflpAmRCJXzIbxtWGbHkVCKnTvh7bK3gTUX7Tr', 'Wy4VkAl2dxHb9WHoXjTowSGPXFPnEQHca6RBe2yeqqmRafs0hSbCEobhNkZZAbCDIru60ceLzAAOI3fj', '2021-07-18 14:49:22', '2021-07-18 14:17:47'),
+(2, 'Christian Kabran', '', '$2y$10$XzUZMAN.KUwPkpg0xSIDi.GOvyF1JDeciikz.lZJvwgMVzQqKP6uu', 'cfkouacou@example.com', '2021-07-10 12:44:20', 'default.jpg', 'active', 'standard', 'jx1ldgQB7i3bGAU2741tLHDfTojl4XFgMaJptZ0QGvxfgKmYgM1PQwtqsnUE', 'XI2yuKhwYfVfT6B7y6UZSgCvT35gM65gsYzPU9NJLNRuUAHNSe0Pcq14mAQs8FWhJOlRyStuJAIvMz9e', '2021-07-18 15:52:09', '2021-07-18 14:17:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_reporteds`
+--
+
+DROP TABLE IF EXISTS `users_reporteds`;
+CREATE TABLE IF NOT EXISTS `users_reporteds` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `reason` enum('copyright','privacy_issue','violent_sexual_content','spoofing') NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `id_reported` int(10) UNSIGNED NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user` (`user_id`,`id_reported`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users_reporteds`
+--
 
 INSERT INTO `users_reporteds` (`id`, `reason`, `user_id`, `id_reported`, `created_at`) VALUES
 (1, 'copyright', 2, 1, '2016-06-21 20:35:01'),
 (2, 'spoofing', 3, 1, '2016-06-23 05:41:50');
 
-CREATE TABLE `visits` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `visits`
+--
+
+DROP TABLE IF EXISTS `visits`;
+CREATE TABLE IF NOT EXISTS `visits` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `campaigns_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `ip` varchar(25) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `publicacion_id` (`campaigns_id`),
+  KEY `user_id` (`user_id`),
+  KEY `ip` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+COMMIT;
 
---
--- Indexes for table `admin_settings`
---
-ALTER TABLE `admin_settings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `campaigns`
---
-ALTER TABLE `campaigns`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `token_id` (`token_id`),
-  ADD KEY `author_id` (`user_id`,`status`,`token_id`),
-  ADD KEY `image` (`small_image`),
-  ADD KEY `goal` (`goal`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `category_campaigns`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `slug` (`slug`);
-
---
--- Indexes for table `contact_messages`
---
-ALTER TABLE `contact_messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `ip` (`ip`),
-  ADD KEY `status` (`status`);
-
---
--- Indexes for table `countries`
---
-ALTER TABLE `countries`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `donations`
---
-ALTER TABLE `donations`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `campaigns_id` (`campaigns_id`);
-
---
--- Indexes for table `pages`
---
-ALTER TABLE `pages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_hash` (`token`),
-  ADD KEY `email` (`email`);
-
---
--- Indexes for table `reserved`
---
-ALTER TABLE `reserved`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`) USING BTREE;
-
---
--- Indexes for table `updates`
---
-ALTER TABLE `updates`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `token_id` (`token_id`),
-  ADD KEY `author_id` (`token_id`),
-  ADD KEY `image` (`image`),
-  ADD KEY `category_campaigns_id` (`campaigns_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `username` (`status`),
-  ADD KEY `role` (`role`);
-
---
--- Indexes for table `users_reporteds`
---
-ALTER TABLE `users_reporteds`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user` (`user_id`,`id_reported`);
-
---
--- Indexes for table `visits`
---
-ALTER TABLE `visits`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `publicacion_id` (`campaigns_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `ip` (`ip`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `admin_settings`
---
-ALTER TABLE `admin_settings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `campaigns`
---
-ALTER TABLE `campaigns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `category_campaigns`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `contact_messages`
---
-ALTER TABLE `contact_messages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `countries`
---
-ALTER TABLE `countries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `donations`
---
-ALTER TABLE `donations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pages`
---
-ALTER TABLE `pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `password_resets`
---
-ALTER TABLE `password_resets`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `reserved`
---
-ALTER TABLE `reserved`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `updates`
---
-ALTER TABLE `updates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users_reporteds`
---user
-ALTER TABLE `users_reporteds`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `visits`
---
-ALTER TABLE `visits`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
-
-
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

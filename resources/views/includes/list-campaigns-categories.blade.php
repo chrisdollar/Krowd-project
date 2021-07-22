@@ -44,8 +44,6 @@
 				{{ str_limit(strip_tags($campaign->description),80,'...') }}
 			</p>
 
-			<!-- <span class="label label-default">{{ $campaign->categories_id }}</span> -->
-
 			<p class="desc-campaigns">
 				<span class="stats-campaigns">
 					<span class="pull-left">
